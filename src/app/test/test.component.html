@@ -1,0 +1,6 @@
+<cdk-virtual-scroll-viewport [ngStyle]="option.style" id="scr"   itemSize="option.itemHeight" minBufferPx="200" maxBufferPx="400" >
+  <div>
+  <li  [ngStyle]="{'height':'20px'}"*cdkVirtualFor="let item of item$| async">{{item}}</li>
+  </div>
+</cdk-virtual-scroll-viewport>
+<button (click)="refresh()">refresh</button>
