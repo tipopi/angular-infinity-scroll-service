@@ -69,6 +69,7 @@ export class InfinityScrollService {
       }),
       //mergeMap是同时进行内部订阅的，会导致不安全的数据操作。
       concatMap((page: number) => {
+         console.log(page);
         return this.scrollDataSource(page,this.option.handle).pipe(
           delay(0),
           tap(resp => {
@@ -92,15 +93,19 @@ export class InfinityScrollService {
     if(handle){
       this.option.handle=handle;
     }
-    let topY=0;
-    if(save){
-      topY=this.dom.scrollTop;
-    }
-    this.page=1;
     this.cache=[];
     this.disClear$.next(1);
-    this.pageInit();
-    this.dom.scrollTop=topY;
+    //保存工作空间
+    if(save){
+      let lastPage=this.page;
+      this.page=1;
+      this.pageByManual$.next(1);
+      this.pageByManual$.next(lastPage);
+    }else{
+      //不保存直接复位
+      this.dom.scrollTop=0;
+      this.pageInit();
+    }
 }
 
 }
